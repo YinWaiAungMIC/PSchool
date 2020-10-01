@@ -50,13 +50,16 @@ class ParentsController extends Controller
             'password'  => Hash::make($request->password)
         ]);
         
-        if ($request->hasFile('profile_picture')) {
+        /*if ($request->hasFile('profile_picture')) {
              $profile = time().'.'.$request->profile_picture->extension();  
    
         $request->profile_picture->move(public_path('backendtemplate/parentImg'), $profile);
         } else {
             $profile = 'avatar.png';
-        }
+        }*/
+        $profile = time().'.'.$request->profile_picture->extension();  
+        $request->profile_picture->move(public_path('images/profiles'), $profile);
+        $profile='images/profiles/'.$profile;
         $user->update([
             'profile_picture' => $profile
         ]);
@@ -119,28 +122,28 @@ class ParentsController extends Controller
         ]);
 
         if ($request->hasFile('profile_picture')) {
-             $profile = time().'.'.$request->profile_picture->extension();  
-   
-        $request->profile_picture->move(public_path('backendtemplate/parentImg'), $profile);
-        } else {
-            $profile = $parents->user->profile_picture;
-        }
-
-        $parents->user()->update([
-            'name'              => $request->name,
-            'email'             => $request->email,
-            'profile_picture'   => $profile
-        ]);
-
-        $parents->update([
-            'gender'            => $request->gender,
-            'phone'             => $request->phone,
-            'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
-        ]);
-
-        return redirect()->route('parents.index');
+           $profile = time().'.'.$request->profile_picture->extension();  
+           
+           $request->profile_picture->move(public_path('backendtemplate/parentImg'), $profile);
+       } else {
+        $profile = $parents->user->profile_picture;
     }
+
+    $parents->user()->update([
+        'name'              => $request->name,
+        'email'             => $request->email,
+        'profile_picture'   => $profile
+    ]);
+
+    $parents->update([
+        'gender'            => $request->gender,
+        'phone'             => $request->phone,
+        'current_address'   => $request->current_address,
+        'permanent_address' => $request->permanent_address
+    ]);
+
+    return redirect()->route('parents.index');
+}
 
     /**
      * Remove the specified resource from storage.
@@ -166,6 +169,6 @@ class ParentsController extends Controller
 
         $parent->delete();
 
-return back();
-}
+        return back();
+    }
 }

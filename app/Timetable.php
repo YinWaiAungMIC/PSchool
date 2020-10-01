@@ -13,4 +13,12 @@ class Timetable extends Model
         'time',
         
     ];
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+	}
+	public function class()
+    {
+        return $this->belongsTo(Grade::class,'class_id');
+	}
 }

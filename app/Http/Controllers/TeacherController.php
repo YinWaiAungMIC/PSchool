@@ -14,9 +14,10 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index()
+    public function index()
     {
         $teachers=Teacher::all();
+        //dd($teachers);
 
         return view('backend.teachers.index', compact('teachers'));
     }
@@ -56,12 +57,15 @@ class TeacherController extends Controller
             'password'  => Hash::make($request->password)
         ]);
         
-         $profile = time().'.'.$request->profile_picture->extension();  
+        /* $profile = time().'.'.$request->profile_picture->extension();  
    
         $request->profile_picture->move(public_path('backendtemplate/teacherImg'), $profile);
         $user->update([
             'profile_picture' => $profile
-        ]);
+        ]);*/
+        $profile = time().'.'.$request->profile_picture->extension();  
+        $request->profile_picture->move(public_path('images/profiles'), $profile);
+        $profile='images/profiles/'.$profile;
 
         $user->teacher()->create([
             'gender'            => $request->gender,
@@ -124,8 +128,8 @@ class TeacherController extends Controller
 
         if ($request->hasFile('profile_picture')) {
             $profile = time().'.'.$request->profile_picture->extension();  
-   
-        $request->profile_picture->move(public_path('backendtemplate/teacherImg'), $profile);
+            
+            $request->profile_picture->move(public_path('backendtemplate/teacherImg'), $profile);
         } else {
             $profile = $user->profile_picture;
         }
@@ -157,7 +161,7 @@ class TeacherController extends Controller
     {
         $teacher=Teacher::find($id);
        //delete related  file from storage
-       $teacher->delete();
-       return redirect()->route('teacher.index');
-}
+        $teacher->delete();
+        return redirect()->route('teacher.index');
+    }
 }

@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <!-- @role('Admin')
+     @role('Admin')
         @include('dashboard.admin')
     @endrole
 
@@ -30,7 +30,8 @@
     @role('Student')
         @include('dashboard.student')
     @endrole
- -->
+
+
 </div>
 
 @endsection

@@ -19,9 +19,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-         $students = Student::with('class')->latest()->paginate(10);
-        return view('backend.students.index',compact('students'));
-    }
+       $students = Student::with('class')->latest()->paginate(10);
+       return view('backend.students.index',compact('students'));
+   }
 
     /**
      * Show the form for creating a new resource.
@@ -33,7 +33,7 @@ class StudentController extends Controller
         $classes = Grade::latest()->get();
         $parents = Parents::with('user')->latest()->get();
         
-return view('backend.students.create', compact('classes','parents'));
+        return view('backend.students.create', compact('classes','parents'));
     }
 
     /**
@@ -65,29 +65,33 @@ return view('backend.students.create', compact('classes','parents'));
         ]);
 
         
-        $profile = time().'.'.$request->profile_picture->extension();  
+       /* $profile = time().'.'.$request->profile_picture->extension();  
    
-        $request->profile_picture->move(public_path('backendtemplate/studentImg'), $profile);
+       $request->profile_picture->move(public_path('backendtemplate/studentImg'), $profile);*/
          // $myfile='backendtemplate/itemimg/'.$profile;
-        $user->update([
-            'profile_picture' => $profile
-        ]);
 
-        $user->student()->create([
-            'parent_id'         => $request->parent_id,
-            'class_id'          => $request->class_id,
-            'roll_number'       => $request->roll_number,
-            'gender'            => $request->gender,
-            'phone'             => $request->phone,
-            'dateofbirth'       => $request->dateofbirth,
-            'current_address'   => $request->current_address,
-            'permanent_address' => $request->permanent_address
-        ]);
+       $profile = time().'.'.$request->profile_picture->extension();  
+       $request->profile_picture->move(public_path('images/profiles'), $profile);
+       $profile='images/profiles/'.$profile;
+       $user->update([
+        'profile_picture' => $profile
+    ]);
+
+       $user->student()->create([
+        'parent_id'         => $request->parent_id,
+        'class_id'          => $request->class_id,
+        'roll_number'       => $request->roll_number,
+        'gender'            => $request->gender,
+        'phone'             => $request->phone,
+        'dateofbirth'       => $request->dateofbirth,
+        'current_address'   => $request->current_address,
+        'permanent_address' => $request->permanent_address
+    ]);
 
        $user->assignRole('Student');
 
-return redirect()->route('student.index');
-    }
+       return redirect()->route('student.index');
+   }
 
     /**
      * Display the specified resource.
@@ -97,10 +101,10 @@ return redirect()->route('student.index');
      */
     public function show(Student $student)
     {
-         $class = Grade::with('subjects')->where('id', $student->class_id)->first();
-        
-        return view('backend.students.show', compact('class','student'));
-    }
+       $class = Grade::with('subjects')->where('id', $student->class_id)->first();
+       
+       return view('backend.students.show', compact('class','student'));
+   }
 
     /**
      * Show the form for editing the specified resource.
@@ -140,8 +144,8 @@ return redirect()->route('student.index');
 
         if ($request->hasFile('profile_picture')) {
             $profile = time().'.'.$request->profile_picture->extension();  
-   
-        $request->profile_picture->move(public_path('backendtemplate/studentImg'), $profile);
+            
+            $request->profile_picture->move(public_path('backendtemplate/studentImg'), $profile);
         } else {
             $profile = $student->user->profile_picture;
         }
@@ -163,7 +167,7 @@ return redirect()->route('student.index');
             'permanent_address' => $request->permanent_address
         ]);
 
-return redirect()->route('student.index');
+        return redirect()->route('student.index');
     }
 
     /**
@@ -174,10 +178,10 @@ return redirect()->route('student.index');
      */
     public function destroy($id)
     {
-       $student=Student::find($id);
+     $student=Student::find($id);
        //delete related  file from storage
-       $student->delete();
-       return redirect()->route('student.index');
-    }
-    
+     $student->delete();
+     return redirect()->route('student.index');
+ }
+ 
 }

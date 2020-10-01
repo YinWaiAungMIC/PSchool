@@ -14,10 +14,11 @@
             </div>
         </div>
         <div class="mt-8 bg-white rounded border-b-4 border-gray-300">
+           
             <div class="flex flex-wrap items-center uppercase text-sm font-semibold bg-gray-300 text-gray-600 rounded-tl rounded-tr">
                 <div class="w-1/12 px-4 py-3">#</div>
                 <div class="w-2/12 px-4 py-3">Name</div>
-                <div class="w-1/12 px-4 py-3">Students</div>
+               <!--  <div class="w-1/12 px-4 py-3">Students</div> -->
                 <div class="w-4/12 px-4 py-3 text-center">Subject Code</div>
                 <div class="w-2/12 px-4 py-3">Teacher</div>
                 <div class="w-2/12 px-4 py-3 text-right">Action</div>
@@ -26,14 +27,16 @@
                 <div class="flex flex-wrap items-center text-gray-700 border-t-2 border-l-4 border-r-4 border-gray-300">
                     <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $class->class_numeric }}</div>
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $class->class_name }}</div>
-                    <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
+                    <!-- <div class="w-1/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
                         <span class="bg-gray-200 text-sm mr-1 mb-1 px-2 font-semibold border rounded-full">
                             {{ $class->students_count }}
                         </span>
-                    </div>
+                    </div> -->
                     <div class="w-4/12 px-4 py-3 text-sm text-gray-600 text-center tracking-tight">
                         @foreach ($class->subjects as $subject)
-                            <span class="bg-gray-200 text-sm mr-1 mb-1 px-2 font-semibold border rounded-full">{{ $subject->subject_code }}</span>
+                            <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" title="{{ $subject->name }}">
+                            {{ $subject->subject_code }}
+                            </button>
                         @endforeach
                     </div>
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $class->teacher->user->name ?? '' }}</div>
@@ -43,13 +46,15 @@
                         <form action="{{ route('classes.destroy',$class->id) }}" method="POST" class="inline-flex ml-1">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="bg-gray-600 block p-1 border border-gray-600 rounded-sm">
+                            <button type="submit" class=" block p-1   rounded-sm">
                                <span class="badge badge-success badge-pill ml-2"><i class="fas fa-trash-alt"></i></span>
                             </button>
                         </form>
                         <a href="{{ route('class.assign.subject',$class->id) }}" class="ml-1 bg-gray-600 block p-1 border border-gray-600 rounded-sm" title="assign subject">
                             <svg class="h-3 w-3 fill-current text-gray-100" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="align-right" class="svg-inline--fa fa-align-right fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M160 84V44c0-8.837 7.163-16 16-16h256c8.837 0 16 7.163 16 16v40c0 8.837-7.163 16-16 16H176c-8.837 0-16-7.163-16-16zM16 228h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 256h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm160-128h256c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H176c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg>
                         </a>
+                        <a href="{{ route('timetable.show',$class->id) }}" class="ml-1"><span class="badge badge-success badge-pill ml-2"><i class="far fa-calendar-alt"></i></span></a>
+                        
                     </div>
                 </div>
             @endforeach

@@ -8,7 +8,7 @@
             </div>
             <div class="flex flex-wrap items-center">
                 <a href="{{ route('teacher.create') }}" class="bg-gray-200 text-gray-700 text-sm uppercase py-2 px-4 flex items-center rounded">
-                    <svg class="w-3 h-3 fill-current" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" class="svg-inline--fa fa-plus fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path></svg>
+                    <span class="badge badge-success badge-pill ml-2"  ><i class="fas fa-plus"></i></span>
                     <span class="ml-2 text-xs font-semibold">Teacher</span>
                 </a>
 
@@ -27,9 +27,10 @@
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $teacher->user->name }}</div>
                     <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $teacher->user->email }}</div>
                     <div class="w-3/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">
-                        @foreach ($teacher->subjects as $subject)
-                            <span class="bg-gray-200 text-sm mr-1 mb-1 px-2 border rounded-full">{{ $subject->subject_code }}</span>
-                        @endforeach
+                        
+                            <span class="bg-gray-200 text-sm mr-1 mb-1 px-2 border rounded-full">{{ $teacher->subject->subject_code }}</span>
+                        
+                        
                     </div>
                     <div class="w-2/12 px-4 py-3 text-sm font-semibold text-gray-600 tracking-tight">{{ $teacher->phone }}</div>
                     <div class="w-2/12 flex items-center justify-end px-3">
@@ -40,7 +41,7 @@
                         <form action="{{ route('teacher.destroy',$teacher->id)}}" onsubmit="return confirm('Are you sure to delete?')" method="post">
                             @csrf
                             @method('Delete')
-                        <button class="btn btn-danger" type="submit"><span class="badge badge-success badge-pill ml-2"><i class="fas fa-trash-alt"></i></span></button>
+                        <button class="btn " type="submit"><span class="badge badge-success badge-pill ml-2"><i class="fas fa-trash-alt"></i></span></button>
                         </form>
                         
                     </div>

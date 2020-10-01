@@ -20,10 +20,10 @@ public function user()
         return $this->belongsTo(User::class);
     }
 
-    public function subjects()
+    public function subject()
     {
-        return $this->hasMany(Subject::class);
-    }
+        return $this->hasOne(Subject::class);
+}
 
     public function classes()
     {
